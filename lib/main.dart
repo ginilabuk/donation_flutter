@@ -1,11 +1,14 @@
+import 'package:donation_flutter/core/register_singletons.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:donation_flutter/core/registered_providers.dart';
 import 'package:donation_flutter/router/my_router.dart';
 import 'package:donation_flutter/router/route_to.dart';
 
-void main() {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  await registerSingletons();
 
   runApp(
     MultiProvider(
@@ -28,7 +31,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.purple,
       ),
       onGenerateRoute: MyRouter.generateRoute,
-      initialRoute: RouteTo.home.name,
+      initialRoute: RouteTo.splash.name,
     );
   }
 }
