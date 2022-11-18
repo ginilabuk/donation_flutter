@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:sample_project/providers/test_provider.dart';
+import 'package:donation_flutter/providers/payment_provider.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -14,7 +14,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    var provider = Provider.of<TestProvider>(context);
+    var provider = Provider.of<PaymentProvider>(context);
 
     return Scaffold(
       appBar: AppBar(
@@ -30,9 +30,10 @@ class _HomeScreenState extends State<HomeScreen> {
                 for (double price in prices)
                   Container(
                     margin: const EdgeInsets.all(10),
+                    padding: const EdgeInsets.all(10),
                     child: ElevatedButton(
                       onPressed: () => provider.payNow(price),
-                      child: Text('Pay \$${price.toStringAsFixed(2)}'),
+                      child: Text('${price.toStringAsFixed(2)}'),
                     ),
                   ),
               ],

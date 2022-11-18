@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:sample_project/router/route_animations.dart';
-import 'package:sample_project/router/route_to.dart';
-import 'package:sample_project/views/home/home_screen.dart';
+import 'package:donation_flutter/router/route_animations.dart';
+import 'package:donation_flutter/router/route_to.dart';
+import 'package:donation_flutter/views/home/home_screen.dart';
 
 class MyRouter {
   static Route<dynamic> generateRoute(RouteSettings settings) {

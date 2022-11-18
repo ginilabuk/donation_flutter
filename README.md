@@ -1,4 +1,4 @@
-# sample_project
+# donation_flutter
 
 A new Flutter project.
 

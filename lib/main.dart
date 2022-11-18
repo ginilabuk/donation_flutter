@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:sample_project/core/registered_providers.dart';
-import 'package:sample_project/router/my_router.dart';
-import 'package:sample_project/router/route_to.dart';
+import 'package:donation_flutter/core/registered_providers.dart';
+import 'package:donation_flutter/router/my_router.dart';
+import 'package:donation_flutter/router/route_to.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Sample Project',
+      title: 'NMC Donation',
       theme: ThemeData(
         useMaterial3: true,
         primarySwatch: Colors.purple,
