@@ -10,7 +10,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  List<double> prices = [10, 20, 30, 50, 75, 100];
+  List<double> prices = [5, 10, 15, 20, 30, 40, 50, 75, 100];
   TextEditingController _amountController = TextEditingController();
 
   @override
@@ -20,7 +20,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Home"),
+        title: const Text("Please Donate Generously"),
       ),
       body: SingleChildScrollView(
         child: Stack(
@@ -28,6 +28,7 @@ class _HomeScreenState extends State<HomeScreen> {
             Center(
               child: Column(
                 children: [
+                  const Text("Sunderland Jami Mosque - Chester Road"),
                   const SizedBox(
                     height: 15,
                   ),
@@ -170,7 +171,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ),
                     child: const Text(
-                      'Confirm',
+                      'Donate',
                       style: TextStyle(fontSize: 50),
                     ),
                   ),
@@ -180,7 +181,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     height: 30,
                   ),
                   const Text(
-                    "© 2021",
+                    "© Ginilab Ltd",
                     style: TextStyle(
                       fontSize: 20,
                       color: Colors.black87,
