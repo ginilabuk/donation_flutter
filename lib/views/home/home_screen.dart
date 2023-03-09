@@ -1,4 +1,8 @@
+// ignore_for_file: use_build_context_synchronously
+
+import 'package:donation_flutter/core/local_storage_keys.dart';
 import 'package:donation_flutter/router/route_to.dart';
+import 'package:donation_flutter/views/widgets/popups/popups.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:donation_flutter/providers/payment_provider.dart';
@@ -24,7 +28,13 @@ class _HomeScreenState extends State<HomeScreen> {
         title: const Text("Please Donate Generously"),
         actions: [
           IconButton(
-            onPressed: () {
+            onPressed: () async {
+              var password = await Popups.settingsPassword(context);
+
+              bool isValid = LocalStorageKeys.checkSettingsPassword(password);
+
+              if (!isValid) return;
+
               Navigator.pushNamed(context, RouteTo.settings.name);
             },
             icon: const Icon(Icons.settings),
