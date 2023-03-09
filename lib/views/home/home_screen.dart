@@ -1,3 +1,4 @@
+import 'package:donation_flutter/router/route_to.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:donation_flutter/providers/payment_provider.dart';
@@ -21,6 +22,14 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Please Donate Generously"),
+        actions: [
+          IconButton(
+            onPressed: () {
+              Navigator.pushNamed(context, RouteTo.settings.name);
+            },
+            icon: const Icon(Icons.settings),
+          )
+        ],
       ),
       body: SingleChildScrollView(
         child: Stack(
