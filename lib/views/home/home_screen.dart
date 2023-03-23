@@ -119,7 +119,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
                       String? paymentIntent = await provider.payNow();
 
-                      if (paymentIntent != null) {
+                      if (paymentIntent == "succeeded") {
                         // Show popup to confirm payment
                         await showDialog(
                           context: context,
@@ -132,8 +132,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                     fontWeight: FontWeight.w700),
                               ),
                               content: Text(
-                                "Payment of £${provider.amount.toStringAsFixed(2)} successful"
-                                "and payment intent is $paymentIntent",
+                                "Payment of £${provider.amount.toStringAsFixed(2)} successful",
+                                //"and payment intent is $paymentIntent",
                                 style: const TextStyle(fontSize: 20),
                               ),
                               actions: [

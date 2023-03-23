@@ -1,13 +1,18 @@
 import 'package:donation_flutter/core/get_instances.dart';
 import 'package:flutter/cupertino.dart';
 
+import '../models/settings_model.dart';
+
 class PaymentProvider extends ChangeNotifier {
   double amount = 0;
   String clientSecret = "";
+  SettingsModel settings = SettingsModel.getSettings();
 
   //stripe info
-  final String _stripeKey = "sk_test_bXrc5J6iSZu9DEP027r8kqsA";
-  final String _stripeAccount = "acct_1GaC9uHfo422lFkq";
+  //final String _stripeKey = "sk_test_bXrc5J6iSZu9DEP027r8kqsA";
+  //final String _stripeAccount = "acct_1GaC9uHfo422lFkq";
+  final int _businessId = 1;
+  final String _businessType = "mosque";
   final String _readerId = "tmr_E3TOwMoUvZN0BF";
 
   bool _isLoading = false;
@@ -33,10 +38,10 @@ class PaymentProvider extends ChangeNotifier {
     var result = await GetInstance.dataSource.post(
       "v1/stripe/terminal/create_payment_intent",
       body: {
-        "stripeToken": _stripeKey,
-        "stripeAccount": _stripeAccount,
-        "applicationFee": ((amount / 100) * 100).toInt(),
+        "businessId": _businessId,
+        "businessType": _businessType,
         "amount": (amount * 100).toInt(),
+        "description": "dontation at ${settings.name}"
       },
     );
 
@@ -55,32 +60,52 @@ class PaymentProvider extends ChangeNotifier {
     result = await GetInstance.dataSource.post(
       "v1/stripe/terminal/process_payment_intent",
       body: {
-        "stripeToken": "sk_test_bXrc5J6iSZu9DEP027r8kqsA",
+        "businessId": _businessId,
+        "businessType": _businessType,
         "paymentIntent": paymentIntentId,
-        "readerId": _readerId,
-        "amount": (amount * 100).toInt(),
-        "description": "Donation"
+        "readerId": _readerId
       },
     );
 
-    var readerAction = result["status"] == true ? result["action"] : null;
+    var reader = result["status"] == true ? result["reader"] : null;
 
-    if (readerAction == null) {
+    if (reader == null) {
       setLoading(false);
       debugPrint(result);
       return null;
     }
 
-    await Future.delayed(const Duration(milliseconds: 30));
+    var completed = false;
+    var counter = 0;
+    while (!completed && counter++ < 25) {
+      await Future.delayed(const Duration(seconds: 3));
+      result = await GetInstance.dataSource.post(
+        "v1/stripe/terminal/process_payment_intent",
+        body: {
+          "businessId": _businessId,
+          "businessType": _businessType,
+          "paymentIntentId": paymentIntentId
+        },
+      );
 
-    setLoading(false);
+      var paymentIntent =
+          result["status"] == true ? result["paymentIntent"] : null;
 
-    //Check reader status
-    if (readerAction == 'succeeded') {
-      return readerAction;
+      if (paymentIntent == null) {
+        setLoading(false);
+        debugPrint(result);
+        return null;
+      }
+
+      if (paymentIntent["status"] == "canceled" ||
+          paymentIntent["status"] == "succeeded") {
+        completed = true;
+        setLoading(false);
+        return paymentIntent["status"];
+      }
     }
 
-    // print(result);
+    setLoading(false);
 
     return null;
   }
