@@ -16,14 +16,27 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  List<double> prices = [5, 10, 15, 20, 30, 40, 50, 75, 100];
+  List<double> prices = [
+    5,
+    10,
+    15,
+    20,
+    30,
+    40,
+    50,
+    75,
+    100,
+    125,
+    313,
+  ];
+
   TextEditingController _amountController = TextEditingController();
   SettingsModel setting = SettingsModel.getSettings();
 
   Future<void> paymentResponse(PaymentProvider provider) async {
     if (provider.isLoading) return;
 
-    String? paymentIntent = await provider.payNow();
+    String? paymentIntent = await provider.payNow(context);
 
     if (paymentIntent == "succeeded") {
       // Show popup to confirm payment
@@ -93,7 +106,11 @@ class _HomeScreenState extends State<HomeScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Please Donate Generously"),
+        centerTitle: true,
+        title: const Text(
+          "Please Donate Generously",
+          textAlign: TextAlign.center,
+        ),
         actions: [
           IconButton(
             onPressed: () async {
@@ -115,7 +132,9 @@ class _HomeScreenState extends State<HomeScreen> {
             Center(
               child: Column(
                 children: [
-                  Text("${setting.name}"),
+                  Text(
+                    "${setting.name}",
+                  ),
                   const SizedBox(
                     height: 15,
                   ),
