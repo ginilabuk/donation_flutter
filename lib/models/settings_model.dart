@@ -37,12 +37,12 @@ class SettingsModel {
   }
 
   Map<String, dynamic> toJson() => {
-        "name": name,
-        "address": address,
-        "phone": phone,
-        "stripeAPIKey": stripeAPIKey,
-        "stripeAccountId": stripeAccountId,
-        "readerId": readerId,
+        "name": name?.trim(),
+        "address": address?.trim(),
+        "phone": phone?.trim(),
+        "stripeAPIKey": stripeAPIKey?.trim(),
+        "stripeAccountId": stripeAccountId?.trim(),
+        "readerId": readerId?.trim(),
       };
 
   static SettingsModel fromJson(Map<String, dynamic> map) => SettingsModel(
