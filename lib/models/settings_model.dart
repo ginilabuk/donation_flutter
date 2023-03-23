@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:ffi';
 
 import 'package:donation_flutter/core/get_instances.dart';
 
@@ -8,6 +9,8 @@ class SettingsModel {
   String? phone;
   String? stripeAPIKey;
   String? stripeAccountId;
+  String? readerId;
+  //Double? applicationFee;
 
   SettingsModel({
     this.name,
@@ -15,6 +18,7 @@ class SettingsModel {
     this.phone,
     this.stripeAPIKey,
     this.stripeAccountId,
+    this.readerId,
   });
 
   static String prefSettingsKey = "settings";
@@ -38,6 +42,7 @@ class SettingsModel {
         "phone": phone,
         "stripeAPIKey": stripeAPIKey,
         "stripeAccountId": stripeAccountId,
+        "readerId": readerId,
       };
 
   static SettingsModel fromJson(Map<String, dynamic> map) => SettingsModel(
@@ -46,5 +51,6 @@ class SettingsModel {
         phone: map['phone'],
         stripeAPIKey: map['stripeAPIKey'],
         stripeAccountId: map['stripeAccountId'],
+        readerId: map['readerId'],
       );
 }

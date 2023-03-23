@@ -5,15 +5,6 @@ import '../models/settings_model.dart';
 
 class PaymentProvider extends ChangeNotifier {
   double amount = 0;
-  String clientSecret = "";
-  SettingsModel settings = SettingsModel.getSettings();
-
-  //stripe info
-  //final String _stripeKey = "sk_test_bXrc5J6iSZu9DEP027r8kqsA";
-  //final String _stripeAccount = "acct_1GaC9uHfo422lFkq";
-  final int _businessId = 1;
-  final String _businessType = "mosque";
-  final String _readerId = "tmr_E3TOwMoUvZN0BF";
 
   bool _isLoading = false;
 
@@ -34,14 +25,28 @@ class PaymentProvider extends ChangeNotifier {
   Future<String?> payNow() async {
     setLoading(true);
 
+    SettingsModel settings = SettingsModel.getSettings();
+
+    //stripe info
+    String stripeKey = "sk_live_0EqQ5sASlf4mrK8ywjoyL4vL";
+    String? stripeAccount = settings.stripeAccountId;
+    //final int _businessId = 1;
+    //final String _businessType = "mosque";
+    final String? readerId = settings.readerId;
+
     //Create a payment intent
     var result = await GetInstance.dataSource.post(
       "v1/stripe/terminal/create_payment_intent",
       body: {
-        "businessId": _businessId,
-        "businessType": _businessType,
+        "businessId": "",
+        "businessType": "",
+        "stripeToken": stripeKey,
+        "stripeAccount": stripeAccount,
+        "applicationFee": amount.ceil().toInt(),
         "amount": (amount * 100).toInt(),
-        "description": "dontation at ${settings.name}"
+        "description":
+            "${settings.name} donation".characters.take(22).toString(),
+        "paymentIntentId": ""
       },
     );
 
@@ -60,14 +65,14 @@ class PaymentProvider extends ChangeNotifier {
     result = await GetInstance.dataSource.post(
       "v1/stripe/terminal/process_payment_intent",
       body: {
-        "businessId": _businessId,
-        "businessType": _businessType,
+        "stripeToken": stripeKey,
+        "stripeAccount": stripeAccount,
         "paymentIntent": paymentIntentId,
-        "readerId": _readerId
+        "readerId": readerId
       },
     );
 
-    var reader = result["status"] == true ? result["reader"] : null;
+    var reader = result?["status"] == true ? result["reader"] : null;
 
     if (reader == null) {
       setLoading(false);
@@ -80,10 +85,10 @@ class PaymentProvider extends ChangeNotifier {
     while (!completed && counter++ < 25) {
       await Future.delayed(const Duration(seconds: 3));
       result = await GetInstance.dataSource.post(
-        "v1/stripe/terminal/process_payment_intent",
+        "v1/stripe/terminal/get_payment_intent",
         body: {
-          "businessId": _businessId,
-          "businessType": _businessType,
+          "stripeToken": stripeKey,
+          "stripeAccount": stripeAccount,
           "paymentIntentId": paymentIntentId
         },
       );

@@ -1,6 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:donation_flutter/core/local_storage_keys.dart';
+import 'package:donation_flutter/models/settings_model.dart';
 import 'package:donation_flutter/router/route_to.dart';
 import 'package:donation_flutter/views/widgets/popups/popups.dart';
 import 'package:flutter/material.dart';
@@ -17,6 +18,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   List<double> prices = [5, 10, 15, 20, 30, 40, 50, 75, 100];
   TextEditingController _amountController = TextEditingController();
+  SettingsModel setting = SettingsModel.getSettings();
 
   Future<void> paymentResponse(PaymentProvider provider) async {
     if (provider.isLoading) return;
@@ -113,7 +115,7 @@ class _HomeScreenState extends State<HomeScreen> {
             Center(
               child: Column(
                 children: [
-                  const Text("Sunderland Jami Mosque - Chester Road"),
+                  Text("${setting.name}"),
                   const SizedBox(
                     height: 15,
                   ),

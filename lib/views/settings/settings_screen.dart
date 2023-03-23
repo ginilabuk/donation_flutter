@@ -53,18 +53,25 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 settings?.phone = value;
               },
             ),
-            FormFieldPrimary(
-              label: "Stripe API Key",
-              initialValue: settings?.stripeAPIKey,
-              onChanged: (value) {
-                settings?.stripeAPIKey = value;
-              },
-            ),
+            // FormFieldPrimary(
+            //   label: "Stripe API Key",
+            //   initialValue: settings?.stripeAPIKey,
+            //   onChanged: (value) {
+            //     settings?.stripeAPIKey = value;
+            //   },
+            // ),
             FormFieldPrimary(
               label: "Stripe Account Id",
               initialValue: settings?.stripeAccountId,
               onChanged: (value) {
                 settings?.stripeAccountId = value;
+              },
+            ),
+            FormFieldPrimary(
+              label: "Reader ID",
+              initialValue: settings?.readerId,
+              onChanged: (value) {
+                settings?.readerId = value;
               },
             ),
             Padding(
