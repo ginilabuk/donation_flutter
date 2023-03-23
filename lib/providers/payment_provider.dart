@@ -46,7 +46,7 @@ class PaymentProvider extends ChangeNotifier {
     );
 
     var paymentIntentId =
-        result["status"] == true ? result["payment_intent_id"] : null;
+        result?["status"] == true ? result["payment_intent_id"] : null;
 
     if (paymentIntentId == null) {
       setLoading(false);

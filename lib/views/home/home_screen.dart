@@ -18,6 +18,72 @@ class _HomeScreenState extends State<HomeScreen> {
   List<double> prices = [5, 10, 15, 20, 30, 40, 50, 75, 100];
   TextEditingController _amountController = TextEditingController();
 
+  Future<void> paymentResponse(PaymentProvider provider) async {
+    if (provider.isLoading) return;
+
+    String? paymentIntent = await provider.payNow();
+
+    if (paymentIntent == "succeeded") {
+      // Show popup to confirm payment
+      await showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: const Text(
+              "Payment Success",
+              style:
+                  TextStyle(color: Colors.green, fontWeight: FontWeight.w700),
+            ),
+            content: Text(
+              "Payment of £${provider.amount.toStringAsFixed(2)} successful",
+              //"and payment intent is $paymentIntent",
+              style: const TextStyle(fontSize: 20),
+            ),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: const Text(
+                  "OK",
+                  style: TextStyle(fontSize: 20),
+                ),
+              ),
+            ],
+          );
+        },
+      );
+    } else {
+      // Show popup to confirm payment
+      await showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: const Text(
+              "Payment Failed",
+              style: TextStyle(color: Colors.red, fontWeight: FontWeight.w700),
+            ),
+            content: Text(
+              "Payment of £${provider.amount.toStringAsFixed(2)} failed",
+              style: const TextStyle(fontSize: 20),
+            ),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: const Text(
+                  "OK",
+                  style: TextStyle(fontSize: 20),
+                ),
+              ),
+            ],
+          );
+        },
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     var provider = Provider.of<PaymentProvider>(context);
@@ -60,11 +126,12 @@ class _HomeScreenState extends State<HomeScreen> {
                           width: size.width * 0.47,
                           margin: const EdgeInsets.all(2),
                           child: ElevatedButton(
-                            onPressed: () {
+                            onPressed: () async {
                               _amountController.text = "";
                               setState(() {});
 
                               provider.setAmount(price);
+                              await paymentResponse(provider);
                             },
                             style: ElevatedButton.styleFrom(
                               elevation: 5,
@@ -114,74 +181,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     height: 30,
                   ),
                   ElevatedButton(
-                    onPressed: () async {
-                      if (provider.isLoading) return;
-
-                      String? paymentIntent = await provider.payNow();
-
-                      if (paymentIntent == "succeeded") {
-                        // Show popup to confirm payment
-                        await showDialog(
-                          context: context,
-                          builder: (context) {
-                            return AlertDialog(
-                              title: const Text(
-                                "Payment Success",
-                                style: TextStyle(
-                                    color: Colors.green,
-                                    fontWeight: FontWeight.w700),
-                              ),
-                              content: Text(
-                                "Payment of £${provider.amount.toStringAsFixed(2)} successful",
-                                //"and payment intent is $paymentIntent",
-                                style: const TextStyle(fontSize: 20),
-                              ),
-                              actions: [
-                                TextButton(
-                                  onPressed: () {
-                                    Navigator.of(context).pop();
-                                  },
-                                  child: const Text(
-                                    "OK",
-                                    style: TextStyle(fontSize: 20),
-                                  ),
-                                ),
-                              ],
-                            );
-                          },
-                        );
-                      } else {
-                        // Show popup to confirm payment
-                        await showDialog(
-                          context: context,
-                          builder: (context) {
-                            return AlertDialog(
-                              title: const Text(
-                                "Payment Failed",
-                                style: TextStyle(
-                                    color: Colors.red,
-                                    fontWeight: FontWeight.w700),
-                              ),
-                              content: Text(
-                                "Payment of £${provider.amount.toStringAsFixed(2)} failed",
-                                style: const TextStyle(fontSize: 20),
-                              ),
-                              actions: [
-                                TextButton(
-                                  onPressed: () {
-                                    Navigator.of(context).pop();
-                                  },
-                                  child: const Text(
-                                    "OK",
-                                    style: TextStyle(fontSize: 20),
-                                  ),
-                                ),
-                              ],
-                            );
-                          },
-                        );
-                      }
-                    },
+                    onPressed: () async => paymentResponse(provider),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.deepPurple,
                       foregroundColor: Colors.white,
