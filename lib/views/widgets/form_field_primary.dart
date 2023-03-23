@@ -25,7 +25,6 @@ class FormFieldPrimary extends StatelessWidget {
       child: TextFormField(
         initialValue: initialValue,
         controller: controller,
-        keyboardType: TextInputType.number,
         style: const TextStyle(
           fontSize: 35,
           color: Colors.black87,
