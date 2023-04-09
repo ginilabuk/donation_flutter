@@ -214,8 +214,10 @@ class _PaymentProcessPopupWidgetState extends State<PaymentProcessPopupWidget> {
                   ),
                   child: Text(
                     'Try again'.toUpperCase(),
-                    style:
-                        TextStyle(color: isBusy ? Colors.grey : Colors.green),
+                    style: TextStyle(
+                      color: isBusy ? Colors.grey : Colors.green,
+                      fontSize: 25,
+                    ),
                   )),
               TextButton(
                 autofocus: true,
@@ -238,7 +240,10 @@ class _PaymentProcessPopupWidgetState extends State<PaymentProcessPopupWidget> {
                 ),
                 child: Text(
                   'Cancel',
-                  style: TextStyle(color: isBusy ? Colors.grey : Colors.green),
+                  style: TextStyle(
+                    color: isBusy ? Colors.grey : Colors.green,
+                    fontSize: 25,
+                  ),
                 ),
               ),
             ],

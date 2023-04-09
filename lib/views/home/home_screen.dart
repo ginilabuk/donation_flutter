@@ -95,6 +95,11 @@ class _HomeScreenState extends State<HomeScreen> {
             ],
           );
         },
+      ).timeout(
+        const Duration(seconds: 3),
+        onTimeout: () {
+          Navigator.pop(context);
+        },
       );
     }
   }
@@ -110,6 +115,7 @@ class _HomeScreenState extends State<HomeScreen> {
         title: const Text(
           "Please Donate Generously",
           textAlign: TextAlign.center,
+          style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
         ),
         actions: [
           IconButton(
@@ -134,6 +140,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 children: [
                   Text(
                     "${setting.name}",
+                    style: const TextStyle(
+                      fontSize: 25,
+                    ),
                   ),
                   const SizedBox(
                     height: 15,

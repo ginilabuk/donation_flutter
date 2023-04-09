@@ -19,11 +19,17 @@ class Popups {
           ),
           actions: <Widget>[
             TextButton(
-              child: Text('Cancel'),
+              child: const Text(
+                'Cancel',
+                style: TextStyle(fontSize: 20),
+              ),
               onPressed: () => Navigator.of(context).pop(),
             ),
             TextButton(
-              child: Text('Okay'),
+              child: const Text(
+                'Okay',
+                style: TextStyle(fontSize: 20),
+              ),
               onPressed: () {
                 Navigator.of(context).pop(_passwordController.text);
               },
