@@ -61,6 +61,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
             //   },
             // ),
             FormFieldPrimary(
+              label: "Mosque Id",
+              initialValue: settings?.mosqueId,
+              onChanged: (value) {
+                settings?.mosqueId = value;
+              },
+            ),
+            FormFieldPrimary(
               label: "Stripe Account Id",
               initialValue: settings?.stripeAccountId,
               onChanged: (value) {

@@ -10,6 +10,7 @@ class SettingsModel {
   String? stripeAPIKey;
   String? stripeAccountId;
   String? readerId;
+  String? mosqueId;
   //Double? applicationFee;
 
   SettingsModel({
@@ -19,6 +20,7 @@ class SettingsModel {
     this.stripeAPIKey,
     this.stripeAccountId,
     this.readerId,
+    this.mosqueId,
   });
 
   static String prefSettingsKey = "settings";
@@ -43,6 +45,7 @@ class SettingsModel {
         "stripeAPIKey": stripeAPIKey?.trim(),
         "stripeAccountId": stripeAccountId?.trim(),
         "readerId": readerId?.trim(),
+        "mosqueId": mosqueId?.trim(),
       };
 
   static SettingsModel fromJson(Map<String, dynamic> map) => SettingsModel(
@@ -52,5 +55,6 @@ class SettingsModel {
         stripeAPIKey: map['stripeAPIKey'],
         stripeAccountId: map['stripeAccountId'],
         readerId: map['readerId'],
+        mosqueId: map['mosqueId'],
       );
 }

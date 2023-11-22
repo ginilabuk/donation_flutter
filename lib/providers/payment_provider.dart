@@ -30,18 +30,19 @@ class PaymentProvider extends ChangeNotifier {
       SettingsModel settings = SettingsModel.getSettings();
 
       //stripe info
-      String stripeKey = "sk_live_0EqQ5sASlf4mrK8ywjoyL4vL";
-      String? stripeAccount = settings.stripeAccountId;
+      // String stripeKey = "sk_live_0EqQ5sASlf4mrK8ywjoyL4vL";
+      String stripeKey = "";
+      String stripeAccount = settings.stripeAccountId ?? "";
       //final int _businessId = 1;
       //final String _businessType = "mosque";
-      final String? readerId = settings.readerId;
+      final String readerId = settings.readerId ?? "";
 
       //Create a payment intent
       var result = await GetInstance.dataSource.post(
         "v1/stripe/terminal/create_payment_intent",
         body: {
-          "businessId": "",
-          "businessType": "",
+          "businessId": settings.mosqueId ?? "",
+          "businessType": "mosque",
           "stripeToken": stripeKey,
           "stripeAccount": stripeAccount,
           "applicationFee": amount.ceil().toInt(),
@@ -67,8 +68,8 @@ class PaymentProvider extends ChangeNotifier {
       result = await GetInstance.dataSource.post(
         "v1/stripe/terminal/process_payment_intent",
         body: {
-          "businessId": "",
-          "businessType": "",
+          "businessId": settings.mosqueId ?? "",
+          "businessType": "mosque",
           "stripeToken": stripeKey,
           "stripeAccount": stripeAccount,
           "paymentIntent": paymentIntentId,
@@ -87,7 +88,7 @@ class PaymentProvider extends ChangeNotifier {
       var paymentResult = await Popups.paymentStatus(
         context,
         paymentIntent: paymentIntentId,
-        readerId: readerId!,
+        readerId: readerId,
         stripeAccount: stripeAccount,
         stripeKey: stripeKey,
       );

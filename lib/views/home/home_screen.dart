@@ -138,12 +138,13 @@ class _HomeScreenState extends State<HomeScreen> {
             Center(
               child: Column(
                 children: [
-                  Text(
-                    "${setting.name}",
-                    style: const TextStyle(
-                      fontSize: 25,
+                  if (setting.name != null)
+                    Text(
+                      "${setting.name}",
+                      style: const TextStyle(
+                        fontSize: 25,
+                      ),
                     ),
-                  ),
                   const SizedBox(
                     height: 15,
                   ),

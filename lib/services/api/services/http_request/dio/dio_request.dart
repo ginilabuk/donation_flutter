@@ -1,5 +1,8 @@
+import 'dart:developer';
+
 import 'package:dio/dio.dart';
 import 'package:donation_flutter/services/api/services/http_request/api_request.dart';
+import 'package:flutter/foundation.dart';
 
 class DioRequest extends ApiRequest {
   final Dio _dio = Dio();
@@ -48,6 +51,11 @@ class DioRequest extends ApiRequest {
   }) async {
     try {
       url = _baseURL + url;
+
+      if (kDebugMode) {
+        log(url);
+        log(body.toString());
+      }
 
       var response = await _dio.post(
         url,

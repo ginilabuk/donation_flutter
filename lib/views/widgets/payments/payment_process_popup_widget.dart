@@ -5,6 +5,7 @@ import 'package:donation_flutter/core/get_instances.dart';
 import 'package:donation_flutter/core/parse.dart';
 import 'package:donation_flutter/enums/payment_status.dart';
 import 'package:donation_flutter/models/intent_information.dart';
+import 'package:donation_flutter/models/settings_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -89,10 +90,12 @@ class _PaymentProcessPopupWidgetState extends State<PaymentProcessPopupWidget> {
         animatedMessage = "Please wait";
       });
 
+      SettingsModel settings = SettingsModel.getSettings();
+
       var result = await GetInstance.dataSource
           .post("v1/stripe/terminal/cancel_payment", body: {
-        "businessId": "",
-        "businessType": "",
+        "businessId": settings.mosqueId ?? "",
+        "businessType": "mosque",
         "stripeToken": widget.stripeKey,
         "paymentIntent": widget.paymentIntent,
         "readerId": widget.readerId,
@@ -116,12 +119,14 @@ class _PaymentProcessPopupWidgetState extends State<PaymentProcessPopupWidget> {
         animatedMessage = "Please wait";
       });
 
+      SettingsModel settings = SettingsModel.getSettings();
+
       await Future.delayed(const Duration(seconds: 3));
       var result = await GetInstance.dataSource.post(
         "v1/stripe/terminal/get_payment_intent",
         body: {
-          "businessId": "",
-          "businessType": "",
+          "businessId": settings.mosqueId ?? "",
+          "businessType": "mosque",
           "stripeToken": widget.stripeKey,
           "stripeAccount": widget.stripeAccount,
           "paymentIntentId": widget.paymentIntent
